@@ -1,0 +1,99 @@
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  z-index: 1000;
+}
+
+/* Modal content */
+.modal-content {
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 600px;
+  max-height: 80vh;
+  padding: 20px 30px;
+  overflow-y: auto;
+}
+
+/* Close icon */
+.cross-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #000;
+}
+
+/* Trigger button */
+.trigger-button {
+  padding: 8px 16px;
+  background-color: #42f58d;
+  color: #000;
+  font-weight: bold;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Rules heading */
+.rules-heading-popup {
+  font-size: 22px;
+  font-family: 'Bree Serif', serif;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Rules list */
+.rules-list-popup {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  margin: 0;
+  list-style-type: disc;
+  max-height: 60vh;
+  overflow-y: auto;
+  gap: 12px;
+}
+
+/* Each rule */
+.memory-matrix-rule-item-popup {
+  font-family: 'Bree Serif', serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000000;
+  padding-left: 20px; /* For disc */
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    padding: 15px 20px;
+  }
+
+  .rules-heading-popup {
+    font-size: 18px;
+  }
+
+  .memory-matrix-rule-item-popup {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .trigger-button {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+}
