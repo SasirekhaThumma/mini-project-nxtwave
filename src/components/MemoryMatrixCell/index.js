@@ -34,7 +34,11 @@ class Cell extends Component {
 
     return (
       <li>
-        <button className={cellClass} type="button" onClick={onClick} />
+        <button className={cellClass}
+        type="button" 
+        onClick={onClick}
+        data-testid={isHidden ? 'highlighted' : 'notHighlighted'}
+        aria-label={isHidden ? 'Hidden Cell' : 'Normal Cell'} />
       </li>
     )
   }

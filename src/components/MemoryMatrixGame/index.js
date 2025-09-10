@@ -29,17 +29,15 @@ class MemoryMatrixGame extends Component {
   }
 
   onClickPlayAgain = () => {
-    this.setState({
-      showResults: false,
+    this.setState({showResults: false}, () => {
+      this.componentDidMount()
     })
-    this.componentDidMount()
   }
 
   setGridCells = size => {
     const gridSize = size + 3
     const totalCells = gridSize * gridSize
     const numbersArray = Array.from({length: totalCells}, (_, index) => index)
-    const shuffledArray = numbersArray.sort(() => Math.random() - 0.5)
 
     const randomIndices = new Set()
     while (randomIndices.size < gridSize) {
@@ -49,6 +47,7 @@ class MemoryMatrixGame extends Component {
     const currentLevelGridCells = numbersArray.map(value => ({
       id: Math.random().toString(),
       isHidden: randomIndices.has(value),
+      isClicked: false,
     }))
 
     this.setState({
@@ -59,30 +58,36 @@ class MemoryMatrixGame extends Component {
   }
 
   handleCellClick = index => {
-    const {array, gridSize, clickedCellsCount, level} = this.state
-    const updatedArray = [...array]
-    updatedArray[index].isClicked = true
-    if (updatedArray[index].isHidden) {
-      updatedArray[index].isHidden = false
-      if (clickedCellsCount + 1 === gridSize) {
-        this.setState(prevState => ({level: prevState.level + 1}))
-        this.setGridCells(level)
+    this.setState(prevState => {
+      const {array, gridSize, clickedCellsCount, level} = prevState
+      const updatedArray = [...array]
+
+      updatedArray[index].isClicked = true
+
+      if (updatedArray[index].isHidden) {
+        updatedArray[index].isHidden = false
+
+        if (clickedCellsCount + 1 === gridSize) {
+          return {
+            level: level + 1,
+            clickedCellsCount: 0,
+            array: updatedArray,
+          }
+        }
+      } else {
+        clearTimeout(this.timerId)
+        return {showResults: true, array: updatedArray}
       }
-    } else {
-      clearTimeout(this.timerId)
-      this.setState({showResults: true})
-    }
-    this.setState(prevState => ({
-      clickedCellsCount: prevState.clickedCellsCount + 1,
-      array: updatedArray,
-    }))
-    console.log(clickedCellsCount)
+
+      return {
+        clickedCellsCount: clickedCellsCount + 1,
+        array: updatedArray,
+      }
+    })
   }
 
   goToResultsPage = () => {
-    const {level} = this.state
     this.setState({showResults: true})
-    this.setGridCells(level)
   }
 
   render() {
@@ -97,27 +102,26 @@ class MemoryMatrixGame extends Component {
       <div className="memory-matrix-bg">
         <div className="buttons-container">
           <Link to="/">
-            <button className="back-btn" type="button">
+            <button className="back-btn" type="button" aria-label="Back">
               <BiArrowBack color="#ffffff" />
               <p>Back</p>
             </button>
           </Link>
           <MemoryMatrixRulesPopup />
         </div>
+
         <h1 className="memory-matrix-heading">Memory Matrix</h1>
         <p className="level-heading">Level - {level + 1}</p>
+
         <ul
           className="grid"
           style={{gridTemplateColumns: `repeat(${gridSize}, 1fr)`}}
         >
-          {array.map(({id, isHidden}, index) => (
+          {array.map(({id, isHidden, isClicked}, index) => (
             <Cell
               key={id}
               isHidden={isHidden}
-              isClicked={array[index].isClicked}
-              data-testid={
-                array[index].isClicked ? 'highlighted' : 'notHighlighted'
-              }
+              isClicked={isClicked}
               onClick={() => this.handleCellClick(index)}
               hiddenCellsDisplayTime={gridSize * 1000}
             />
