@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import Popup from 'reactjs-popup'
+import Modal from 'react-modal'
 import {withRouter} from 'react-router-dom'
 import {BiArrowBack} from 'react-icons/bi'
 import {CgClose} from 'react-icons/cg'
@@ -86,6 +86,15 @@ class EmojiGame extends Component {
     topScore: 0,
     clickedEmojis: [],
     gameResult: '', // win | lose
+    isRulesModalOpen: false, // 👈 new state for modal
+  }
+
+  openRulesModal = () => {
+    this.setState({isRulesModalOpen: true})
+  }
+
+  closeRulesModal = () => {
+    this.setState({isRulesModalOpen: false})
   }
 
   handleBack = () => {
@@ -133,29 +142,50 @@ class EmojiGame extends Component {
     this.setState({view: 'game', score: 0, clickedEmojis: [], gameResult: ''})
   }
 
-  renderRulesPopup = () => (
-    <Popup
-      modal
-      trigger={
-        <button type='button' className='rules-btn'>
+  renderRulesPopup = () => {
+    const {isRulesModalOpen} = this.state
+    return (
+      <div>
+        {/* Trigger button */}
+        <button
+          type="button"
+          className="rules-btn"
+          onClick={this.openRulesModal}
+        >
           Rules
         </button>
-      }
-    >
-      {close => (
-        <div className='rules-popup'>
+
+        {/* React Modal */}
+        <Modal
+          isOpen={isRulesModalOpen}
+          onRequestClose={this.closeRulesModal}
+          contentLabel="Emoji Game Rules"
+          className="modal-content"
+          overlayClassName="modal-overlay"
+          ariaHideApp={false}
+          aria={{
+            modal: true,
+            labelledby: 'rules-heading-popup',
+          }}
+        >
+          {/* Close button */}
           <button
-            data-testid='close'
-            type='button'
-            className='close-btn'
-            onClick={close}
-            aria-label='Close rules popup'
+            data-testid="close"
+            type="button"
+            className="close-btn"
+            onClick={this.closeRulesModal}
+            aria-label="Close rules popup"
           >
-            <CgClose color='grey' size={24} aria-label='close' />
+            <CgClose color="grey" size={24} />
           </button>
 
-          <h2 className='rules-title'>Rules</h2>
-          <ul className='rules-list'>
+          {/* Title */}
+          <h2 id="rules-heading-popup" className="rules-title">
+            Rules
+          </h2>
+
+          {/* Rules list */}
+          <ul className="rules-list">
             <li>User should be able to see the list of Emojis</li>
             <li>
               When the user clicks any one of the Emoji for the first time, then
@@ -179,34 +209,34 @@ class EmojiGame extends Component {
               page.
             </li>
           </ul>
-        </div>
-      )}
-    </Popup>
-  )
+        </Modal>
+      </div>
+    )
+  }
 
   renderRulesPage = () => (
-    <div className='rules-page'>
+    <div className="rules-page">
       <button
-        type='button'
+        type="button"
         onClick={this.handleBack}
-        className='back-btn'
-        aria-label='Go back'
+        className="back-btn"
+        aria-label="Go back"
       >
         <BiArrowBack />
         Back
       </button>
-      <div className='rules-page-con'>
-        <div className='emoji-rule-img-con'>
+      <div className="rules-page-con">
+        <div className="emoji-rule-img-con">
           <img
-            src='https://res.cloudinary.com/dnxqbn4b5/image/upload/v1757169815/Asset_1_4x_1_vatmby.png'
-            alt='emoji game'
-            className='emoji-rules-img'
+            src="https://res.cloudinary.com/dnxqbn4b5/image/upload/v1757169815/Asset_1_4x_1_vatmby.png"
+            alt="emoji game"
+            className="emoji-rules-img"
           />
-          <h1 className='game-heading'>Emoji Game</h1>
+          <h1 className="game-heading">Emoji Game</h1>
         </div>
-        <div className='emoji-game-rules-list'>
-          <h1 className='rules-heading'>Rules</h1>
-          <ul className='rules-list'>
+        <div className="emoji-game-rules-list">
+          <h1 className="rules-heading">Rules</h1>
+          <ul className="rules-list">
             <li>User should be able to see the list of Emojis</li>
             <li>
               When the user clicks any one of the Emoji for the first time, then
@@ -230,7 +260,7 @@ class EmojiGame extends Component {
               page.
             </li>
           </ul>
-          <button type='button' className='start-btn' onClick={this.startGame}>
+          <button type="button" className="start-btn" onClick={this.startGame}>
             Start Play
           </button>
         </div>
@@ -242,41 +272,41 @@ class EmojiGame extends Component {
     const shuffled = this.shuffleEmojis()
     const {score} = this.state
     return (
-      <div className='game-view'>
-        <nav className='game-view-nav'>
-          <div className='emoji-game-nav-logo'>
+      <div className="game-view">
+        <nav className="game-view-nav">
+          <div className="emoji-game-nav-logo">
             <img
-              src='https://res.cloudinary.com/dnxqbn4b5/image/upload/v1754038512/wink_1_gqv2xz.png'
-              alt='emoji game logo '
-              className='emoji-nav-logo'
+              src="https://res.cloudinary.com/dnxqbn4b5/image/upload/v1754038512/wink_1_gqv2xz.png"
+              alt="emoji game logo"
+              className="emoji-nav-logo"
             />
             <h1>Emoji Game</h1>
           </div>
-          <h1 className='score-text'>Score: {score}</h1>
+          <h1 className="score-text">Score: {score}</h1>
         </nav>
-        <div className='emoji-game-con'>
-          <div className='emoji-rule-back'>
+        <div className="emoji-game-con">
+          <div className="emoji-rule-back">
             <button
-              type='button'
+              type="button"
               onClick={this.handleBack}
-              className='back-btn'
+              className="back-btn"
             >
               <BiArrowBack />
               Back
             </button>
             {this.renderRulesPopup()}
           </div>
-          <div className='emoji-grid'>
+          <div className="emoji-grid">
             {shuffled.map(each => (
               <button
                 key={each.id}
-                type='button'
-                className='emoji-btn'
+                type="button"
+                className="emoji-btn"
                 onClick={() => this.onEmojiClick(each.id)}
-                data-testid='emoji'
-                aria-label='emoji'
+                data-testid="emoji"
+                aria-label="emoji"
               >
-                <img src={each.emojiUrl} alt='emoji' className='emoji-img' />
+                <img src={each.emojiUrl} alt="emoji" className="emoji-img" />
               </button>
             ))}
           </div>
@@ -293,32 +323,32 @@ class EmojiGame extends Component {
         : 'https://res.cloudinary.com/dnxqbn4b5/image/upload/v1757222980/Image_3_l7ot1d.png'
     const resultAlt = gameResult === 'win' ? 'win' : 'lose'
     return (
-      <div className='result-view'>
-        <nav className='game-view-nav'>
-          <div className='emoji-game-nav-logo'>
+      <div className="result-view">
+        <nav className="game-view-nav">
+          <div className="emoji-game-nav-logo">
             <img
-              src='https://res.cloudinary.com/dnxqbn4b5/image/upload/v1754038512/wink_1_gqv2xz.png'
-              alt='emoji game logo'
-              className='emoji-nav-logo'
+              src="https://res.cloudinary.com/dnxqbn4b5/image/upload/v1754038512/wink_1_gqv2xz.png"
+              alt="emoji game logo"
+              className="emoji-nav-logo"
             />
             <h1>Emoji Game</h1>
           </div>
         </nav>
-        <div className='emoji-result-view'>
+        <div className="emoji-result-view">
           <img
             src={`${resultImg}`}
             alt={`${resultAlt}`}
-            className='emoji-result-img'
+            className="emoji-result-img"
           />
-          <div className='emoji-game-result-con'>
-            <h1 className='game-result-msg'>
+          <div className="emoji-game-result-con">
+            <h1 className="game-result-msg">
               {gameResult === 'win' ? 'You Won!' : 'You Lose'}
             </h1>
-            <p className='game-result-bestscore'>Best Score</p>
-            <p className='game-result-score'>{score}/12</p>
+            <p className="game-result-bestscore">Best Score</p>
+            <p className="game-result-score">{score}/12</p>
             <button
-              type='button'
-              className='play-again-btn'
+              type="button"
+              className="play-again-btn"
               onClick={this.playAgain}
             >
               Play Again

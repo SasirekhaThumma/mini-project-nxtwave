@@ -49,12 +49,19 @@ const RockPaperScissorRoute = () => {
 
   const renderScoreBoard = () => {
     let scorealtimage = ' '
+    let scoreBasedImg = ' '
     if (gameStatus === gameStateConstants.lossState) {
       scorealtimage = 'Face without mouth'
+      scoreBasedImg =
+        'https://res.cloudinary.com/dnxqbn4b5/image/upload/v1757486849/Group_7618_4_qq380s.png'
     } else if (gameStatus === gameStateConstants.wonState) {
       scorealtimage = 'Smiling face with star eyes'
+      scoreBasedImg =
+        'https://res.cloudinary.com/dvptfc0ji/image/upload/v1729669525/Group_7618_wz7w1p.png'
     } else {
       scorealtimage = 'Face without mouth'
+      scoreBasedImg =
+        'https://res.cloudinary.com/dnxqbn4b5/image/upload/v1757486844/Group_7618_3_jy4zbn.png'
     }
     return (
       <div className="scoreboard-container-styling">
@@ -70,7 +77,7 @@ const RockPaperScissorRoute = () => {
         </h1>
         <div className="rps-result">
           <img
-            src="https://res.cloudinary.com/dvptfc0ji/image/upload/v1729669525/Group_7618_wz7w1p.png"
+            src={scoreBasedImg}
             alt={scorealtimage}
             className="result-face"
           />

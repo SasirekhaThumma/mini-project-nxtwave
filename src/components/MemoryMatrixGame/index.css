@@ -21,8 +21,7 @@ h1 {
 }
 .memory-matrix-bg {
   background-color: #1a202c;
-  height: 1024px;
-  width: 1440px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -98,10 +97,6 @@ h1 {
 }
 
 @media screen and (max-width: 768px) {
-  .memory-matrix-bg {
-    height: 640px;
-    width: 360px;
-  }
 
   .memory-matrix-heading {
     font-size: 32px;

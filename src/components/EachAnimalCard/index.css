@@ -1,0 +1,32 @@
+.animal-visible-card-styling {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.animal-invisible-card-styling {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background-color: #a7f3d080;
+}
+
+.animal-image {
+  height: 140px;
+  width: 140px;
+  margin: 10px;
+}
+
+@media screen and (max-width: 728px) {
+  .animal-image {
+    height: 80px;
+    width: 80px;
+  }
+}

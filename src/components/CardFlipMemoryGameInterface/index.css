@@ -1,0 +1,313 @@
+.cfm-active-state-container {
+  width: 90%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cfm-activestate-top-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 10px 0px 10px;
+  margin-top: 2%;
+}
+
+.cfm-active-state-rules-button {
+  width: 62px;
+  height: 32px;
+  top: 64px;
+  gap: 0px;
+  opacity: 0px;
+  background-color: transparent;
+  color: #ffffff;
+  border-radius: 4px;
+  border: 1px solid #ffffff;
+  font-weight: 600;
+}
+
+.cfm-popup-rules-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  height: 80%;
+  width: 80%;
+  overflow: auto;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 728px) {
+  .cfm-popup-rules-container {
+    width: 90%;
+    min-height: 90vh;
+    overflow-y: scroll;
+    margin-left: 4%;
+  }
+}
+
+.cfm-active-rules-close-button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  height: 40px;
+  align-self: flex-end;
+  text-align: right;
+  margin-left: 10px;
+  color: #334155;
+}
+
+.cfm-active-state-rules-text {
+  width: 78px;
+  height: 48px;
+  top: 220px;
+  text-align: center;
+  gap: 0px;
+  opacity: 0px;
+  font-family: Bree Serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 48px;
+}
+
+.cfm-active-rules-list-item-styling {
+  width: 48%;
+  font-family: Bree Serif;
+  color: #334155;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 728px) {
+  .cfm-active-rules-list-item-styling {
+    width: 90%;
+  }
+}
+
+.cfm-active-state-heading {
+  font-family: Roboto;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 64px;
+  text-align: center;
+  color: #ffffff;
+  align-self: center;
+}
+
+@media screen and (max-width: 728px) {
+  .cfm-active-state-heading {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+    text-align: center;
+  }
+}
+
+.active-state-score-time-unordered-list {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+  color: #ffffff;
+  padding: 0px 20px 0px 20px;
+}
+
+.active-state-score-list-detail {
+  list-style-type: none;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 32px;
+  text-align: left;
+}
+
+@media screen and (max-width: 728px) {
+  .active-state-score-list-detail {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+  }
+}
+
+.active-state-time-list-detail {
+  font-family: Roboto;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 48px;
+  text-align: right;
+}
+
+@media screen and (max-width: 728px) {
+  .active-state-time-list-detail {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 32px;
+    text-align: right;
+  }
+}
+
+.cfm-game-container {
+  width: 928px;
+  min-height: 700px;
+  top: 296px;
+  left: 256px;
+  gap: 0px;
+  border-radius: 24px;
+  opacity: 0px;
+  background: #154315;
+  border: 2px solid #ffffff;
+  align-self: center;
+  padding: 10px;
+}
+
+@media screen and (max-width: 728px) {
+  .cfm-game-container {
+    width: 100%;
+    min-height: 80vh;
+    gap: 0px;
+    border-radius: 12px;
+    border: 3px;
+    opacity: 0px;
+  }
+}
+
+.animal-cards-unorder-list-styling {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.result-response-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.result-response-emoji {
+  align-self: center;
+  height: 150px;
+  width: 150px;
+}
+
+.congratulation-response-text {
+  font-family: Bree Serif;
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 64px;
+  text-align: center;
+  color: #4ade80;
+}
+
+.no-of-flips-text {
+  color: #ffffff;
+  font-family: Bree Serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+  text-align: center;
+}
+
+.response-descripton {
+  font-family: Bree Serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 48px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.cfm-response-button {
+  background-color: #ffffff;
+  height: 40px;
+  gap: 0px;
+  border-radius: 4px;
+  color: #223a5f;
+  font-family: Bree Serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+  border: none;
+}
+/* Modal Container */
+.cfm-popup-rules-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 800px;
+  width: 90%;
+  margin: auto;
+  position: relative;
+  top: 200px;
+  left:400px;
+  overflow-y: auto;
+}
+
+/* Close button → fixed at top-right corner */
+.cfm-active-rules-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* Rules Heading */
+.cfm-active-state-rules-text {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center; /* default for small screens */
+  margin-bottom: 16px;
+}
+
+/* Rules List */
+.cfm-inital-rules-unordered-styling {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
+/* Each Rule */
+.cfm-active-rules-list-item-styling {
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+/* Responsive behavior */
+@media (min-width: 768px) {
+  /* Large screens */
+  .cfm-inital-rules-unordered-styling {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .cfm-active-rules-list-item-styling {
+    flex: 1 1 45%; /* two columns layout */
+    max-width: 45%;
+  }
+
+  .cfm-active-state-rules-text {
+    text-align: center; /* left-align heading for large screens */
+  }
+}
