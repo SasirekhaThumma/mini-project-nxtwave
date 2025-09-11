@@ -5,7 +5,7 @@ const EachAnimalCard = props => {
   const {name, imageurl, isFlipped} = eachItem
 
   const onSelection = () => {
-    handleClick(eachItem)
+    if (!isFlipped) handleClick(eachItem)
   }
 
   const footPrint =
@@ -19,12 +19,18 @@ const EachAnimalCard = props => {
           : 'animal-invisible-card-styling'
       }
     >
-      <img
-        src={isFlipped ? `${imageurl}` : `${footPrint}`}
-        alt={name}
-        className="animal-image"
+      <button
+        type="button"
         onClick={onSelection}
-      />
+        className="animal-card-button"
+      >
+        <img
+          data-testid="animal-card"
+          src={isFlipped ? imageurl : footPrint}
+          alt={isFlipped ? name : 'foot print'}
+          className="animal-image"
+        />
+      </button>
     </li>
   )
 }

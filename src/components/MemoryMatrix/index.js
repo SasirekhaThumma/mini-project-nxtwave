@@ -14,8 +14,8 @@ class MemoryMatrix extends Component {
   renderRuleView = () => (
     <div className="memory-matrix-home-bg">
       <Link to="/">
-        <button className="back-btn" type="button">
-          <BiArrowBack color="#ffffff" />
+        <button className="back-btn" type="button" data-testid="backBtn">
+          <BiArrowBack color="#ffffff" alt="back" data-testid="back" />
           <p>Back</p>
         </button>
       </Link>
@@ -28,8 +28,8 @@ class MemoryMatrix extends Component {
           className="memory-matrix-image"
         />
 
-        <h1 className="rules-heading">Rules</h1>
-        <ul className="rules-list">
+        <h2 className="rules-heading">Rules</h2>
+        <ul className="rules-list" data-testid="rulesList">
           <li className="memory-matrix-rule-item">
             In each level of the Game, Users should be able to see the Grid with
             (N X N) size starting from 3 and the grid will highlight N cells in
@@ -66,8 +66,9 @@ class MemoryMatrix extends Component {
           type="button"
           className="memory-matrix-start-btn"
           onClick={this.onClickPlayButton}
+          data-testid="startBtn"
         >
-          Start Playing
+          Start playing
         </button>
       </div>
     </div>

@@ -22,19 +22,19 @@ const Home = () => (
         </Link>
       </li>
       <li className="games-list-item">
-        <Link to="/card-flip" className="game-link">
-          <img
-            src="https://res.cloudinary.com/dnxqbn4b5/image/upload/v1757170158/animals_2_lk5rjv.png"
-            alt="card flip memory game"
-          />
-        </Link>
-      </li>
-      <li className="games-list-item">
         <Link to="/rock-paper-scissors" className="game-link">
           <h1>Rock Paper Scissors</h1>
           <img
             src="https://res.cloudinary.com/dnxqbn4b5/image/upload/v1757170136/Group_7469_4_kpvikq.png"
             alt="rock paper scissor"
+          />
+        </Link>
+      </li>
+      <li className="games-list-item">
+        <Link to="/card-flip-memory-game" className="game-link">
+          <img
+            src="https://res.cloudinary.com/dnxqbn4b5/image/upload/v1757170158/animals_2_lk5rjv.png"
+            alt="card flip memory game"
           />
         </Link>
       </li>

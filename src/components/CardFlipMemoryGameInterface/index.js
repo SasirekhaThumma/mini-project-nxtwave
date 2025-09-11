@@ -1,15 +1,9 @@
 import './index.css'
-
 import {Link} from 'react-router-dom'
-
 import Modal from 'react-modal'
-
 import {BiArrowBack} from 'react-icons/bi'
-
 import {CgClose} from 'react-icons/cg'
-
 import {useState, useEffect} from 'react'
-
 import EachAnimalCard from '../EachAnimalCard'
 
 const cardsData = [
@@ -70,7 +64,7 @@ const gameStatusConstants = {
   response: 'RESPONSE',
 }
 
-const renderuniqueElements = () =>
+const renderUniqueElements = () =>
   [...cardsData, ...cardsData].map((eachItem, index) => ({
     id: `${eachItem.name}-${index}`,
     name: eachItem.name,
@@ -80,8 +74,8 @@ const renderuniqueElements = () =>
 
 const CardFlipMemoryGameInterface = () => {
   const renderShuffleCards = () => {
-    const cardsdoubledData = renderuniqueElements()
-    return cardsdoubledData.sort(() => Math.random() - 0.5)
+    const cardsDoubled = renderUniqueElements()
+    return cardsDoubled.sort(() => Math.random() - 0.5)
   }
 
   const [gameStatus, setGameStatus] = useState(gameStatusConstants.active)
@@ -90,18 +84,17 @@ const CardFlipMemoryGameInterface = () => {
   const [countDown, setCountDown] = useState(120)
   const [score, setScore] = useState(0)
   const [selectedCards, setSelectedCards] = useState([])
-  const [setMatchedCards] = useState(0)
+  const [matchedCards, setMatchedCards] = useState(0)
   const [modalIsOpen, setModalIsOpen] = useState(false)
 
-  const closeModal = () => {
-    setModalIsOpen(false)
-  }
-  console.log(selectedCards)
+  const closeModal = () => setModalIsOpen(false)
 
   const formatTime = time => {
     const minutes = Math.floor(time / 60)
     const seconds = time % 60
-    return `0${minutes}:${seconds > 9 ? `${seconds}` : `0${seconds}`}`
+    return `${minutes
+      .toString()
+      .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
   }
 
   useEffect(() => {
@@ -112,7 +105,7 @@ const CardFlipMemoryGameInterface = () => {
     const timerId =
       countDown > 0 && setInterval(() => setCountDown(prev => prev - 1), 1000)
     return () => clearInterval(timerId)
-  }, [countDown, gameStatus])
+  }, [countDown])
 
   const renderActiveTopSection = () => (
     <div className="cfm-activestate-top-container">
@@ -132,7 +125,7 @@ const CardFlipMemoryGameInterface = () => {
         className="cfm-popup-rules-container"
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        contentLabel="Emoji Game Rules"
+        contentLabel="Card Flip Game Rules"
         overlayClassName="modal-overlay"
       >
         <button
@@ -142,7 +135,7 @@ const CardFlipMemoryGameInterface = () => {
           onClick={closeModal}
           aria-label="close"
         >
-          <CgClose color="#334155" aria-label="close" />
+          <CgClose color="#334155" aria-label="close" data-testid="close" />
         </button>
         <h1 className="cfm-active-state-rules-text">Rules</h1>
         <ul className="cfm-inital-rules-unordered-styling">
@@ -151,26 +144,26 @@ const CardFlipMemoryGameInterface = () => {
             of Cards that are shuffled and turned face down.
           </li>
           <li className="cfm-active-rules-list-item-styling">
-            Users should be able to compare only two cards at a time.
-          </li>
-          <li className="cfm-active-rules-list-item-styling">
             When a user starts the game, the user should be able to see the
             Timer running.
+          </li>
+          <li className="cfm-active-rules-list-item-styling">
+            The Timer starts from 2 Minutes.
+          </li>
+          <li className="cfm-active-rules-list-item-styling">
+            If the two cards have the same image, they remain face up. If not,
+            they should be flipped face down again after a short 2 seconds.
+          </li>
+          <li className="cfm-active-rules-list-item-styling">
+            Users should be able to compare only two cards at a time.
           </li>
           <li className="cfm-active-rules-list-item-styling">
             When the user is not able to find all the cards before the timer
             ends then the game should end and redirect to the Time Up Page.
           </li>
           <li className="cfm-active-rules-list-item-styling">
-            The Timer starts from 2 Minutes.
-          </li>
-          <li className="cfm-active-rules-list-item-styling">
             If the user finds all the matching cards before the timer ends, then
             the user should be redirected to the results page.
-          </li>
-          <li className="cfm-active-rules-list-item-styling">
-            If the two cards have the same image, they remain face up. If not,
-            they should be flipped face down again after a short 2 seconds.
           </li>
         </ul>
       </Modal>
@@ -185,32 +178,31 @@ const CardFlipMemoryGameInterface = () => {
     )
 
   const onHandleCardClick = card => {
+    if (selectedCards.length === 2) return
+
     setCardFlipCount(prev => prev + 1)
     setShuffledCards(flipTheCard(card))
-    if (selectedCards.length === 2) {
-      return
-    }
     setSelectedCards(prev => [...prev, card])
+
     if (selectedCards.length === 1) {
-      console.log('selected length 2')
       const firstCard = selectedCards[0]
       if (firstCard.name === card.name) {
-        setMatchedCards(prev => prev + 1)
+        const newMatched = matchedCards + 1
+        setMatchedCards(newMatched)
         setScore(prev => prev + 1)
         setSelectedCards([])
-        if (score === shuffledCards.length / 2) {
+        if (newMatched === shuffledCards.length / 2) {
           setGameStatus(gameStatusConstants.response)
         }
       } else {
         setTimeout(() => {
-          setShuffledCards(
-            shuffledCards.map(eachItem =>
-              eachItem.id === firstCard.id || eachItem.id === firstCard.id
-                ? {...eachItem, isFlipped: !eachItem.isFlipped}
+          setShuffledCards(prevCards =>
+            prevCards.map(eachItem =>
+              eachItem.id === firstCard.id || eachItem.id === card.id
+                ? {...eachItem, isFlipped: false}
                 : eachItem,
             ),
           )
-          console.log('time out initiated')
           setSelectedCards([])
         }, 2000)
       }
@@ -223,12 +215,11 @@ const CardFlipMemoryGameInterface = () => {
       <h1 className="cfm-active-state-heading">Card-Flip Memory Game</h1>
       <div className="active-state-score-time-unordered-list">
         <p className="active-state-score-list-detail">
-          Card flip count -{' '}
-          {cardFlipCount > 9 ? `${cardFlipCount}` : `0${cardFlipCount}`}
+          Card flip count - {cardFlipCount.toString().padStart(2, '0')}
         </p>
         <p className="active-state-time-list-detail">{formatTime(countDown)}</p>
         <p className="active-state-score-list-detail">
-          Score - {score > 9 ? score : `0${score}`}
+          Score - {score.toString().padStart(2, '0')}
         </p>
       </div>
       <div className="cfm-game-container">
@@ -238,7 +229,7 @@ const CardFlipMemoryGameInterface = () => {
               eachItem={eachItem}
               key={eachItem.id}
               handleClick={onHandleCardClick}
-              testid="cardsData"
+              testid={eachItem.name}
             />
           ))}
         </ul>
@@ -261,14 +252,12 @@ const CardFlipMemoryGameInterface = () => {
       'https://res.cloudinary.com/dvptfc0ji/image/upload/v1729927729/2x_csj9y0.png'
     const sadEmoji =
       'https://res.cloudinary.com/dvptfc0ji/image/upload/v1729927830/thfj8loqatlejhcjmh0q.png'
-    const happyemojialt = 'grinning face with big eyes'
-    const sadEmojialt = 'neutral face'
     return (
       <div className="result-response-container">
         <img
           className="result-response-emoji"
-          src={score > 10 ? happyEmoji : sadEmoji}
-          alt={score > 10 ? happyemojialt : sadEmojialt}
+          src={score > 9 ? happyEmoji : sadEmoji}
+          alt={score > 9 ? 'grinning face with big eyes' : 'neutral face'}
         />
         <h1 className="congratulation-response-text">
           {score > 9 ? 'Congratulations' : 'Better luck next time'}
@@ -297,7 +286,7 @@ const CardFlipMemoryGameInterface = () => {
       case gameStatusConstants.response:
         return responseSection()
       default:
-        return 'none'
+        return null
     }
   }
 

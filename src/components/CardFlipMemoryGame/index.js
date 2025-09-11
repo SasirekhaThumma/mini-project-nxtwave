@@ -1,9 +1,7 @@
 import './index.css'
 
 import {Link} from 'react-router-dom'
-
 import {BiArrowBack} from 'react-icons/bi'
-
 import {useState} from 'react'
 
 import CardFlipMemoryGameInterface from '../CardFlipMemoryGameInterface'
@@ -41,26 +39,27 @@ const CardFlipMemoryGame = () => {
           Cards that are shuffled and turned face down.
         </li>
         <li className="cfm-inital-list-item-styling">
-          Users should be able to compare only two cards at a time.
-        </li>
-        <li className="cfm-inital-list-item-styling">
           When a user starts the game, the user should be able to see the Timer
           running.
-        </li>
-        <li className="cfm-inital-list-item-styling">
-          When the user is not able to find all the cards before the timer ends
-          then the game should end and redirect to the Time Up Page.
         </li>
         <li className="cfm-inital-list-item-styling">
           The Timer starts from 2 Minutes.
         </li>
         <li className="cfm-inital-list-item-styling">
-          If the user finds all the matching cards before the timer ends, then
-          the user should be redirected to the results page.
-        </li>
-        <li className="cfm-inital-list-item-styling">
           If the two cards have the same image, they remain face up. If not,
           they should be flipped face down again after a short 2 seconds.
+        </li>
+        <li className="cfm-inital-list-item-styling">
+          Users should be able to compare only two cards at a time.
+        </li>
+        <li className="cfm-inital-list-item-styling">
+          When the user is not able to find all the cards before the timer ends
+          then the game should end and redirect to the Time Up Page.
+        </li>
+
+        <li className="cfm-inital-list-item-styling">
+          If the user finds all the matching cards before the timer ends, then
+          the user should be redirected to the results page.
         </li>
       </ul>
       <button
@@ -68,16 +67,12 @@ const CardFlipMemoryGame = () => {
         type="button"
         onClick={onSelection}
       >
-        Start Playing
+        Start playing
       </button>
     </div>
   )
 
-  const renderActiveState = () => (
-    <>
-      <CardFlipMemoryGameInterface />
-    </>
-  )
+  const renderActiveState = () => <CardFlipMemoryGameInterface />
 
   const renderCFMGame = () => {
     switch (gameState) {
@@ -86,7 +81,7 @@ const CardFlipMemoryGame = () => {
       case gameStateConstants.activeState:
         return renderActiveState()
       default:
-        return 'none'
+        return null
     }
   }
 

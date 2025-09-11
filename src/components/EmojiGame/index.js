@@ -4,7 +4,6 @@ import {withRouter} from 'react-router-dom'
 import {BiArrowBack} from 'react-icons/bi'
 import {CgClose} from 'react-icons/cg'
 
-import 'reactjs-popup/dist/index.css'
 import './index.css'
 
 const emojisList = [
@@ -86,7 +85,8 @@ class EmojiGame extends Component {
     topScore: 0,
     clickedEmojis: [],
     gameResult: '', // win | lose
-    isRulesModalOpen: false, // 👈 new state for modal
+    isRulesModalOpen: false,
+    shuffledEmojis: [...emojisList].sort(() => Math.random() - 0.5),
   }
 
   openRulesModal = () => {
@@ -99,20 +99,17 @@ class EmojiGame extends Component {
 
   handleBack = () => {
     const {history} = this.props
-    history.push('/') // navigate to Home
+    history.push('/')
   }
 
   startGame = () => {
-    this.setState({view: 'game', score: 0, clickedEmojis: [], gameResult: ''})
-  }
-
-  shuffleEmojis = () => {
-    const {clickedEmojis} = this.state
-    const shuffled = [...emojisList].sort(() => Math.random() - 0.5)
-    return shuffled.map(each => ({
-      ...each,
-      isClicked: clickedEmojis.includes(each.id),
-    }))
+    this.setState({
+      view: 'game',
+      score: 0,
+      clickedEmojis: [],
+      gameResult: '',
+      shuffledEmojis: [...emojisList].sort(() => Math.random() - 0.5),
+    })
   }
 
   onEmojiClick = id => {
@@ -129,24 +126,31 @@ class EmojiGame extends Component {
           gameResult: 'win',
         }))
       } else {
+        const shuffled = [...emojisList].sort(() => Math.random() - 0.5)
         this.setState(prev => ({
           clickedEmojis: newClicked,
           score: prev.score + 1,
           topScore: Math.max(prev.topScore, prev.score + 1),
+          shuffledEmojis: shuffled,
         }))
       }
     }
   }
 
   playAgain = () => {
-    this.setState({view: 'game', score: 0, clickedEmojis: [], gameResult: ''})
+    this.setState({
+      view: 'game',
+      score: 0,
+      clickedEmojis: [],
+      gameResult: '',
+      shuffledEmojis: [...emojisList].sort(() => Math.random() - 0.5),
+    })
   }
 
   renderRulesPopup = () => {
     const {isRulesModalOpen} = this.state
     return (
       <div>
-        {/* Trigger button */}
         <button
           type="button"
           className="rules-btn"
@@ -154,8 +158,6 @@ class EmojiGame extends Component {
         >
           Rules
         </button>
-
-        {/* React Modal */}
         <Modal
           isOpen={isRulesModalOpen}
           onRequestClose={this.closeRulesModal}
@@ -163,12 +165,7 @@ class EmojiGame extends Component {
           className="modal-content"
           overlayClassName="modal-overlay"
           ariaHideApp={false}
-          aria={{
-            modal: true,
-            labelledby: 'rules-heading-popup',
-          }}
         >
-          {/* Close button */}
           <button
             data-testid="close"
             type="button"
@@ -176,15 +173,14 @@ class EmojiGame extends Component {
             onClick={this.closeRulesModal}
             aria-label="Close rules popup"
           >
-            <CgClose color="grey" size={24} />
+            <CgClose
+              color="grey"
+              size={24}
+              aria-label="close"
+              data-testid="close"
+            />
           </button>
-
-          {/* Title */}
-          <h2 id="rules-heading-popup" className="rules-title">
-            Rules
-          </h2>
-
-          {/* Rules list */}
+          <h2 className="rules-title">Rules</h2>
           <ul className="rules-list">
             <li>User should be able to see the list of Emojis</li>
             <li>
@@ -222,7 +218,7 @@ class EmojiGame extends Component {
         className="back-btn"
         aria-label="Go back"
       >
-        <BiArrowBack />
+        <BiArrowBack color="#ffffff" />
         Back
       </button>
       <div className="rules-page-con">
@@ -261,7 +257,7 @@ class EmojiGame extends Component {
             </li>
           </ul>
           <button type="button" className="start-btn" onClick={this.startGame}>
-            Start Play
+            Start playing
           </button>
         </div>
       </div>
@@ -269,20 +265,19 @@ class EmojiGame extends Component {
   )
 
   renderGameView = () => {
-    const shuffled = this.shuffleEmojis()
-    const {score} = this.state
+    const {score, shuffledEmojis} = this.state
     return (
       <div className="game-view">
         <nav className="game-view-nav">
           <div className="emoji-game-nav-logo">
             <img
               src="https://res.cloudinary.com/dnxqbn4b5/image/upload/v1754038512/wink_1_gqv2xz.png"
-              alt="emoji game logo"
+              alt="emoji logo"
               className="emoji-nav-logo"
             />
             <h1>Emoji Game</h1>
           </div>
-          <h1 className="score-text">Score: {score}</h1>
+          <p className="score-text">Score: {score}</p>
         </nav>
         <div className="emoji-game-con">
           <div className="emoji-rule-back">
@@ -291,61 +286,64 @@ class EmojiGame extends Component {
               onClick={this.handleBack}
               className="back-btn"
             >
-              <BiArrowBack />
+              <BiArrowBack color="#ffffff" />
               Back
             </button>
             {this.renderRulesPopup()}
           </div>
-          <div className="emoji-grid">
-            {shuffled.map(each => (
-              <button
-                key={each.id}
-                type="button"
-                className="emoji-btn"
-                onClick={() => this.onEmojiClick(each.id)}
-                data-testid="emoji"
-                aria-label="emoji"
-              >
-                <img src={each.emojiUrl} alt="emoji" className="emoji-img" />
-              </button>
+          <ul className="emoji-grid">
+            {shuffledEmojis.map(each => (
+              <li key={each.id} className="emoji-btn">
+                <button
+                  type="button"
+                  className="emoji-btn"
+                  onClick={() => this.onEmojiClick(each.id)}
+                  data-testid="emoji"
+                >
+                  <img
+                    src={each.emojiUrl}
+                    alt={each.emojiName}
+                    className="emoji-img"
+                  />
+                </button>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     )
   }
 
   renderResultView = () => {
-    const {score, gameResult} = this.state
+    const {score, topScore, gameResult} = this.state
     const resultImg =
       gameResult === 'win'
         ? 'https://res.cloudinary.com/dnxqbn4b5/image/upload/v1757222974/Image_2_geufoh.png'
         : 'https://res.cloudinary.com/dnxqbn4b5/image/upload/v1757222980/Image_3_l7ot1d.png'
-    const resultAlt = gameResult === 'win' ? 'win' : 'lose'
+    const resultAlt = gameResult === 'win' ? 'won' : 'lose'
+
     return (
       <div className="result-view">
         <nav className="game-view-nav">
           <div className="emoji-game-nav-logo">
             <img
               src="https://res.cloudinary.com/dnxqbn4b5/image/upload/v1754038512/wink_1_gqv2xz.png"
-              alt="emoji game logo"
+              alt="emoji logo"
               className="emoji-nav-logo"
             />
             <h1>Emoji Game</h1>
           </div>
         </nav>
         <div className="emoji-result-view">
-          <img
-            src={`${resultImg}`}
-            alt={`${resultAlt}`}
-            className="emoji-result-img"
-          />
+          <img src={resultImg} alt={resultAlt} className="emoji-result-img" />
           <div className="emoji-game-result-con">
             <h1 className="game-result-msg">
               {gameResult === 'win' ? 'You Won!' : 'You Lose'}
             </h1>
-            <p className="game-result-bestscore">Best Score</p>
-            <p className="game-result-score">{score}/12</p>
+            <p className="game-result-bestscore">Your Score</p>
+            <p className="game-result-score">{score}</p>
+            <p className="game-result-bestscore">Top Score</p>
+            <p className="game-result-score">{topScore}</p>
             <button
               type="button"
               className="play-again-btn"

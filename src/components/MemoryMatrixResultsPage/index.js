@@ -1,7 +1,7 @@
 import {Line} from 'rc-progress'
 import './index.css'
 
-const MemoryMatrixProgressBar = props => {
+const MemoryMatrixResultsPage = props => {
   const {level, onClickPlayAgain} = props
   const percentage = (level * 100) / 15
   return (
@@ -73,4 +73,4 @@ const MemoryMatrixProgressBar = props => {
   )
 }
 
-export default MemoryMatrixProgressBar
+export default MemoryMatrixResultsPage

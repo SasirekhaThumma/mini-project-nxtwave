@@ -5,14 +5,13 @@ class Cell extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      showHighlight: true, // initial highlight
+      showHighlight: true,
     }
     this.timerId = null
   }
 
   componentDidMount() {
     const {hiddenCellsDisplayTime} = this.props
-    // Remove initial highlight after display time
     this.timerId = setTimeout(() => {
       this.setState({showHighlight: false})
     }, hiddenCellsDisplayTime)
@@ -32,13 +31,21 @@ class Cell extends Component {
     if (isClicked && !wrongClicked) cellClass += ' clicked'
     if (wrongClicked) cellClass += ' wrong-clicked'
 
+    let testId = 'notHighlighted'
+    if (wrongClicked) {
+      testId = 'wrongCell'
+    } else if (isHidden) {
+      testId = 'highlighted'
+    }
+
     return (
-      <li>
+      <li className="cell-item">
         <button
           className={cellClass}
           type="button"
           onClick={onClick}
-          data-testid={isHidden ? 'highlighted' : 'notHighlighted'}
+          disabled={showHighlight}
+          data-testid={testId}
           aria-label={isHidden ? 'Hidden Cell' : 'Normal Cell'}
         />
       </li>

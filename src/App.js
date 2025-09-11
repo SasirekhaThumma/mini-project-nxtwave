@@ -13,12 +13,12 @@ const App = () => (
     <Switch>
       <Route exact path="/" component={Home} />
       <Route exact path="/emoji-game" component={EmojiGame} />
-      <Route exact path="/rock-paper-scissors" component={RockPaperScissors} />
       <Route
         exact
         path="/card-flip-memory-game"
         component={CardFlipMemoryGame}
       />
+      <Route exact path="/rock-paper-scissor" component={RockPaperScissors} />
       <Route exact path="/memory-matrix" component={MemoryMatrix} />
     </Switch>
   </BrowserRouter>

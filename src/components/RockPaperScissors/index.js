@@ -38,7 +38,7 @@ const choicesList = [
 
 const RockPaperScissorRoute = () => {
   const [gameStatus, setStatus] = useState(gameStateConstants.initial)
-  const [score, setSore] = useState(0)
+  const [score, setScore] = useState(0)
   const [yourOption, setYourOption] = useState({})
   const [computerOption, setComputerOption] = useState({})
   const [modalIsOpen, setModalIsOpen] = useState(false)
@@ -231,10 +231,10 @@ const RockPaperScissorRoute = () => {
       (yourChoice.id === 'paper' && generatedChoice.id === 'rock')
     ) {
       setStatus(gameStateConstants.wonState)
-      setSore(prevScore => prevScore + 1)
+      setScore(prevScore => prevScore + 1)
     } else {
       setStatus(gameStateConstants.lossState)
-      setSore(prevScore => prevScore - 1)
+      setScore(prevScore => prevScore - 1)
     }
   }
 
@@ -246,7 +246,7 @@ const RockPaperScissorRoute = () => {
     <div className="initial-container">
       <Link to="/" className="rps-link-styling">
         <button type="button" className="rps-back-button-styling">
-          <BiArrowBack /> Back
+          <BiArrowBack color="ffffff" /> Back
         </button>
       </Link>
       <h1 className="rps-heading-styling">ROCK PAPER SCISSOR</h1>
@@ -308,7 +308,7 @@ const RockPaperScissorRoute = () => {
         </li>
       </ul>
       <button className="rps-start-button" type="button" onClick={onStartGame}>
-        Start Playing
+        Start playing
       </button>
     </div>
   )
@@ -338,10 +338,15 @@ const RockPaperScissorRoute = () => {
           type="button"
           data-testid="close"
           className="rps-active-rules-close-button"
-          onClick={closeModal}
           aria-label="close"
+          onClick={closeModal}
         >
-          <CgClose color="#334155" aria-label="close" />
+          <CgClose
+            color="#334155"
+            size={24}
+            aria-label="close"
+            data-testid="close"
+          />
         </button>
         <h1 className="rps-active-state-rules-state">Rules</h1>
         <ul className="rps-rules-unordered-styling">
