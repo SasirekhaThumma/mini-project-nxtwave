@@ -28,7 +28,7 @@ class MemoryMatrix extends Component {
           className="memory-matrix-image"
         />
 
-        <h2 className="rules-heading">Rules</h2>
+        <h1 className="rules-heading">Rules</h1>
         <ul className="rules-list" data-testid="rulesList">
           <li className="memory-matrix-rule-item">
             In each level of the Game, Users should be able to see the Grid with

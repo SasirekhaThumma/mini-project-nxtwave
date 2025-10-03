@@ -167,18 +167,12 @@ class EmojiGame extends Component {
           ariaHideApp={false}
         >
           <button
-            data-testid="close"
             type="button"
             className="close-btn"
             onClick={this.closeRulesModal}
-            aria-label="Close rules popup"
+            data-testid="close"
           >
-            <CgClose
-              color="grey"
-              size={24}
-              aria-label="close"
-              data-testid="close"
-            />
+            <CgClose color="grey" size={24} aria-label="close" />
           </button>
           <h2 className="rules-title">Rules</h2>
           <ul className="rules-list">
@@ -277,7 +271,9 @@ class EmojiGame extends Component {
             />
             <h1>Emoji Game</h1>
           </div>
-          <p className="score-text">Score: {score}</p>
+          <p className="score-text">
+            Score: {score.toString().padStart(2, '0')}
+          </p>
         </nav>
         <div className="emoji-game-con">
           <div className="emoji-rule-back">
@@ -315,7 +311,7 @@ class EmojiGame extends Component {
   }
 
   renderResultView = () => {
-    const {score, topScore, gameResult} = this.state
+    const {score, gameResult} = this.state
     const resultImg =
       gameResult === 'win'
         ? 'https://res.cloudinary.com/dnxqbn4b5/image/upload/v1757222974/Image_2_geufoh.png'
@@ -340,10 +336,11 @@ class EmojiGame extends Component {
             <h1 className="game-result-msg">
               {gameResult === 'win' ? 'You Won!' : 'You Lose'}
             </h1>
-            <p className="game-result-bestscore">Your Score</p>
-            <p className="game-result-score">{score}</p>
-            <p className="game-result-bestscore">Top Score</p>
-            <p className="game-result-score">{topScore}</p>
+            <p className="game-result-bestscore">Best Score</p>
+            <p className="game-result-score">
+              {score.toString().padStart(2, '0')}/12
+            </p>
+
             <button
               type="button"
               className="play-again-btn"

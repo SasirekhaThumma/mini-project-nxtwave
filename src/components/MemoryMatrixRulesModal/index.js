@@ -30,16 +30,10 @@ const MemoryMatrixRulesModal = () => {
         <button
           type="button"
           className="cross-icon"
-          data-testid="close"
           onClick={closeModal}
-          aria-label="Close Rules"
+          data-testid="close"
         >
-          <CgClose
-            size={24}
-            color="grey"
-            aria-label="close"
-            data-testid="close"
-          />
+          <CgClose size={24} color="grey" aria-label="close" />
         </button>
 
         <h1 id="rules-heading-popup" className="rules-heading-popup">

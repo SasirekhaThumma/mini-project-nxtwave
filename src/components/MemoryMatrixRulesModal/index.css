@@ -19,7 +19,7 @@
   background-color: #ffffff;
   border-radius: 8px;
   width: 80%;
-  max-width: 600px;
+  max-width: 800px;
   max-height: 80vh;
   padding: 20px 30px;
   overflow-y: auto;
@@ -66,15 +66,17 @@
   overflow-y: auto;
   gap: 12px;
 }
-
-/* Each rule */
 .memory-matrix-rule-item-popup {
   font-family: 'Bree Serif', serif;
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: 20px;
+  line-height: 32px;
   color: #000000;
-  padding-left: 20px; /* For disc */
+  margin-bottom: 10px;
+  max-width: 45%;
+  margin-left: 20px;
+  padding-left: 20px;
 }
+/* Each rule */
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
@@ -90,6 +92,7 @@
   .memory-matrix-rule-item-popup {
     font-size: 14px;
     line-height: 1.4;
+    min-width: 90%;
   }
 
   .trigger-button {

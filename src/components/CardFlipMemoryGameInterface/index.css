@@ -6,6 +6,9 @@
 }
 
 .cfm-activestate-top-container {
+  position: relative;
+  top: 30px;
+  left: 50px;
   display: flex;
   justify-content: space-between;
   padding: 0px 10px 0px 10px;
@@ -25,37 +28,29 @@
   font-weight: 600;
 }
 
-.cfm-popup-rules-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  height: 80%;
-  width: 80%;
-  overflow: auto;
-}
-
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  place-items: center; /* centers children both ways */
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-@media screen and (max-width: 728px) {
+/* Popup container */
+.cfm-popup-rules-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@media screen and (max-width: 768px) {
   .cfm-popup-rules-container {
     width: 90%;
-    min-height: 90vh;
-    overflow-y: scroll;
-    margin-left: 4%;
+    max-height: 90vh;
   }
 }
 
@@ -99,7 +94,7 @@
 
 .cfm-active-state-heading {
   font-family: Roboto;
-  font-size: 48px;
+  font-size: 32px;
   font-weight: 700;
   line-height: 64px;
   text-align: center;
@@ -163,8 +158,8 @@
 }
 
 .cfm-game-container {
-  width: 928px;
-  min-height: 700px;
+  width: 580px;
+  min-height: 500px;
   top: 296px;
   left: 256px;
   gap: 0px;
@@ -179,7 +174,7 @@
 @media screen and (max-width: 728px) {
   .cfm-game-container {
     width: 100%;
-    min-height: 80vh;
+    max-height: 80vh;
     gap: 0px;
     border-radius: 12px;
     border: 3px;

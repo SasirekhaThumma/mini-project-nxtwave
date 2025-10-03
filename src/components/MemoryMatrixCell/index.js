@@ -5,7 +5,7 @@ class Cell extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      showHighlight: true,
+      shouldShowHiddenCells: true,
     }
     this.timerId = null
   }
@@ -13,41 +13,47 @@ class Cell extends Component {
   componentDidMount() {
     const {hiddenCellsDisplayTime} = this.props
     this.timerId = setTimeout(() => {
-      this.setState({showHighlight: false})
+      // Store the timerId
+      this.setState({shouldShowHiddenCells: false})
     }, hiddenCellsDisplayTime)
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timerId)
+    clearTimeout(this.timerId) // Clear the timer in componentWillUnmount
   }
 
   render() {
-    const {isHidden, isClicked, wrongClicked, onClick} = this.props
-    const {showHighlight} = this.state
-
-    let cellClass = 'cell'
-
-    if (showHighlight && isHidden) cellClass += ' highlighted'
-    if (isClicked && !wrongClicked) cellClass += ' clicked'
-    if (wrongClicked) cellClass += ' wrong-clicked'
-
-    let testId = 'notHighlighted'
-    if (wrongClicked) {
-      testId = 'wrongCell'
-    } else if (isHidden) {
-      testId = 'highlighted'
+    const {isHidden, isClicked, onClick} = this.props
+    const {shouldShowHiddenCells} = this.state
+    const cellStyle = {}
+    let dataTestid = ''
+    if (isClicked) {
+      if (isHidden) {
+        cellStyle.backgroundColor = 'red'
+      } else {
+        cellStyle.backgroundColor = 'blue'
+      }
     }
 
+    if (isHidden) {
+      dataTestid = 'highlighted'
+    } else {
+      dataTestid = 'notHighlighted'
+    }
     return (
-      <li className="cell-item">
+      <li>
         <button
-          className={cellClass}
-          type="button"
+          className={`cell ${
+            isHidden && shouldShowHiddenCells ? 'highlighted' : ''
+          }`}
+          data-testid={dataTestid}
+          style={cellStyle}
           onClick={onClick}
-          disabled={showHighlight}
-          data-testid={testId}
-          aria-label={isHidden ? 'Hidden Cell' : 'Normal Cell'}
-        />
+          tabIndex={0}
+          type="button"
+        >
+          {}
+        </button>
       </li>
     )
   }

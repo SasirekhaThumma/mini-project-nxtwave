@@ -22,7 +22,7 @@ const Home = () => (
         </Link>
       </li>
       <li className="games-list-item">
-        <Link to="/rock-paper-scissors" className="game-link">
+        <Link to="/rock-paper-scissor" className="game-link">
           <h1>Rock Paper Scissors</h1>
           <img
             src="https://res.cloudinary.com/dnxqbn4b5/image/upload/v1757170136/Group_7469_4_kpvikq.png"

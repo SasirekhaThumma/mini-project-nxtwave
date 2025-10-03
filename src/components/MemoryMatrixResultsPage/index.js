@@ -3,7 +3,10 @@ import './index.css'
 
 const MemoryMatrixResultsPage = props => {
   const {level, onClickPlayAgain} = props
-  const percentage = (level * 100) / 15
+
+  // Round percentage to avoid floating point mismatch
+  const percentage = Math.round((level / 15) * 100)
+
   return (
     <div className="progressbar-bg">
       <div className="progrssbar-emojis-container">
@@ -48,20 +51,24 @@ const MemoryMatrixResultsPage = props => {
           className="progressbar-emoji"
         />
       </div>
+
       <Line
         percent={percentage}
         strokeWidth={4}
         strokeColor="blue"
         className="progress-bar"
       />
+
       <div className="levels-container">
         <p className="level-heading">level 1</p>
         <p className="level-heading">level 5</p>
         <p className="level-heading">level 10</p>
         <p className="level-heading">level 15</p>
       </div>
-      <h1 className="congratulations-heading">Congratulations</h1>
+      <h1>Congratulations!</h1>
+      {/* Remove extra Congratulations heading, keep only this main heading */}
       <h1 className="description-heading">You have reached level {level}</h1>
+
       <button
         type="button"
         className="play-again-button"

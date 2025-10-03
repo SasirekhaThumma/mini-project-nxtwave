@@ -23,7 +23,8 @@ const CardFlipMemoryGame = () => {
     <div className="cfm-initial-state-container">
       <Link to="/" className="link-styling">
         <button type="button" className="cfm-initial-Back-button">
-          <BiArrowBack color="#ffffff" /> Back
+          <BiArrowBack color="#ffffff" />
+          Back
         </button>
       </Link>
       <h1 className="cfm-heading-styling">Card-Flip Memory Game</h1>

@@ -36,7 +36,7 @@ const choicesList = [
   },
 ]
 
-const RockPaperScissorRoute = () => {
+const RockPaperScissor = () => {
   const [gameStatus, setStatus] = useState(gameStateConstants.initial)
   const [score, setScore] = useState(0)
   const [yourOption, setYourOption] = useState({})
@@ -336,17 +336,11 @@ const RockPaperScissorRoute = () => {
       >
         <button
           type="button"
-          data-testid="close"
           className="rps-active-rules-close-button"
-          aria-label="close"
+          data-testid="close"
           onClick={closeModal}
         >
-          <CgClose
-            color="#334155"
-            size={24}
-            aria-label="close"
-            data-testid="close"
-          />
+          <CgClose color="#334155" size={24} aria-label="close" />
         </button>
         <h1 className="rps-active-state-rules-state">Rules</h1>
         <ul className="rps-rules-unordered-styling">
@@ -382,12 +376,12 @@ const RockPaperScissorRoute = () => {
           </li>
           <li className="rps-active-state-list-item-styling">
             When the user choice is paper and his opponent choice is scissors
-            then the result will be{' '}
+            then the result will be
             <span className="span-styling">YOU LOSE</span>
           </li>
           <li className="rps-active-state-list-item-styling">
             When the user choice is scissors and his opponent choice is scissors
-            then the result will be{' '}
+            then the result will be
             <span className="span-styling">IT IS DRAW</span>
           </li>
           <li className="rps-active-state-list-item-styling">
@@ -453,4 +447,4 @@ const RockPaperScissorRoute = () => {
   return <div className="rps-game-container-bg">{renderRPSgame()}</div>
 }
 
-export default RockPaperScissorRoute
+export default RockPaperScissor

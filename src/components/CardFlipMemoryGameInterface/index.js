@@ -4,6 +4,7 @@ import Modal from 'react-modal'
 import {BiArrowBack} from 'react-icons/bi'
 import {CgClose} from 'react-icons/cg'
 import {useState, useEffect} from 'react'
+import {Line} from 'rc-progress'
 import EachAnimalCard from '../EachAnimalCard'
 
 const cardsData = [
@@ -73,13 +74,10 @@ const renderUniqueElements = () =>
   }))
 
 const CardFlipMemoryGameInterface = () => {
-  const renderShuffleCards = () => {
-    const cardsDoubled = renderUniqueElements()
-    return cardsDoubled.sort(() => Math.random() - 0.5)
-  }
-
   const [gameStatus, setGameStatus] = useState(gameStatusConstants.active)
-  const [shuffledCards, setShuffledCards] = useState(renderShuffleCards())
+  const [shuffledCards, setShuffledCards] = useState(() =>
+    renderUniqueElements().sort(() => Math.random() - 0.5),
+  )
   const [cardFlipCount, setCardFlipCount] = useState(0)
   const [countDown, setCountDown] = useState(120)
   const [score, setScore] = useState(0)
@@ -98,14 +96,51 @@ const CardFlipMemoryGameInterface = () => {
   }
 
   useEffect(() => {
-    if (countDown === 0) {
-      setGameStatus(gameStatusConstants.response)
-    }
+    if (countDown === 0) setGameStatus(gameStatusConstants.response)
 
     const timerId =
       countDown > 0 && setInterval(() => setCountDown(prev => prev - 1), 1000)
     return () => clearInterval(timerId)
   }, [countDown])
+
+  const flipCard = card =>
+    shuffledCards.map(eachItem =>
+      eachItem.id === card.id
+        ? {...eachItem, isFlipped: !eachItem.isFlipped}
+        : eachItem,
+    )
+
+  const onHandleCardClick = card => {
+    if (selectedCards.length === 2) return
+
+    setCardFlipCount(prev => prev + 1)
+    setShuffledCards(flipCard(card))
+    setSelectedCards(prev => [...prev, card])
+
+    if (selectedCards.length === 1) {
+      const firstCard = selectedCards[0]
+      if (firstCard.name === card.name) {
+        const newMatched = matchedCards + 1
+        setMatchedCards(newMatched)
+        setScore(prev => prev + 1)
+        setSelectedCards([])
+        if (newMatched === shuffledCards.length / 2) {
+          setGameStatus(gameStatusConstants.response)
+        }
+      } else {
+        setTimeout(() => {
+          setShuffledCards(prev =>
+            prev.map(eachItem =>
+              eachItem.id === firstCard.id || eachItem.id === card.id
+                ? {...eachItem, isFlipped: false}
+                : eachItem,
+            ),
+          )
+          setSelectedCards([])
+        }, 2000)
+      }
+    }
+  }
 
   const renderActiveTopSection = () => (
     <div className="cfm-activestate-top-container">
@@ -133,9 +168,8 @@ const CardFlipMemoryGameInterface = () => {
           data-testid="close"
           className="cfm-active-rules-close-button"
           onClick={closeModal}
-          aria-label="close"
         >
-          <CgClose color="#334155" aria-label="close" data-testid="close" />
+          <CgClose color="#334155" aria-label="close" />
         </button>
         <h1 className="cfm-active-state-rules-text">Rules</h1>
         <ul className="cfm-inital-rules-unordered-styling">
@@ -161,6 +195,7 @@ const CardFlipMemoryGameInterface = () => {
             When the user is not able to find all the cards before the timer
             ends then the game should end and redirect to the Time Up Page.
           </li>
+
           <li className="cfm-active-rules-list-item-styling">
             If the user finds all the matching cards before the timer ends, then
             the user should be redirected to the results page.
@@ -169,45 +204,6 @@ const CardFlipMemoryGameInterface = () => {
       </Modal>
     </div>
   )
-
-  const flipTheCard = card =>
-    shuffledCards.map(eachItem =>
-      eachItem.id === card.id
-        ? {...eachItem, isFlipped: !eachItem.isFlipped}
-        : eachItem,
-    )
-
-  const onHandleCardClick = card => {
-    if (selectedCards.length === 2) return
-
-    setCardFlipCount(prev => prev + 1)
-    setShuffledCards(flipTheCard(card))
-    setSelectedCards(prev => [...prev, card])
-
-    if (selectedCards.length === 1) {
-      const firstCard = selectedCards[0]
-      if (firstCard.name === card.name) {
-        const newMatched = matchedCards + 1
-        setMatchedCards(newMatched)
-        setScore(prev => prev + 1)
-        setSelectedCards([])
-        if (newMatched === shuffledCards.length / 2) {
-          setGameStatus(gameStatusConstants.response)
-        }
-      } else {
-        setTimeout(() => {
-          setShuffledCards(prevCards =>
-            prevCards.map(eachItem =>
-              eachItem.id === firstCard.id || eachItem.id === card.id
-                ? {...eachItem, isFlipped: false}
-                : eachItem,
-            ),
-          )
-          setSelectedCards([])
-        }, 2000)
-      }
-    }
-  }
 
   const renderActiveStateSection = () => (
     <>
@@ -229,7 +225,6 @@ const CardFlipMemoryGameInterface = () => {
               eachItem={eachItem}
               key={eachItem.id}
               handleClick={onHandleCardClick}
-              testid={eachItem.name}
             />
           ))}
         </ul>
@@ -239,7 +234,7 @@ const CardFlipMemoryGameInterface = () => {
 
   const onPlayAgainButton = () => {
     setGameStatus(gameStatusConstants.active)
-    setShuffledCards(renderShuffleCards())
+    setShuffledCards(renderUniqueElements().sort(() => Math.random() - 0.5))
     setCardFlipCount(0)
     setCountDown(120)
     setScore(0)
@@ -268,6 +263,13 @@ const CardFlipMemoryGameInterface = () => {
             ? 'You matched all of the cards in record time'
             : 'You did not match all of the cards in record time'}
         </p>
+        <Line
+          percent={(matchedCards / (shuffledCards.length / 2)) * 100}
+          strokeWidth={4}
+          strokeColor="#3b82f6"
+          trailColor="#d1d5db"
+          className="progress-bar"
+        />
         <button
           type="button"
           className="cfm-response-button"
