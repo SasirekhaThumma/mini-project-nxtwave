@@ -2,7 +2,7 @@ import {Component} from 'react'
 import {Link} from 'react-router-dom'
 import {BiArrowBack} from 'react-icons/bi'
 import './index.css'
-import Cell from '../MemoryMatrixCell'
+import MemoryMatrixCell from '../MemoryMatrixCell'
 import MemoryMatrixRulesModal from '../MemoryMatrixRulesModal'
 import MemoryMatrixResultsPage from '../MemoryMatrixResultsPage'
 
@@ -131,7 +131,7 @@ class MemoryMatrixGame extends Component {
           style={{gridTemplateColumns: `repeat(${gridSize}, 1fr)`}}
         >
           {array.map(({id, isHidden, isClicked, wrongClicked}, index) => (
-            <Cell
+            <MemoryMatrixCell
               key={id}
               isHidden={isHidden}
               isClicked={isClicked}

@@ -1,7 +1,7 @@
 import {Component} from 'react'
 import './index.css'
 
-class Cell extends Component {
+class MemoryMatrixCell extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -13,33 +13,34 @@ class Cell extends Component {
   componentDidMount() {
     const {hiddenCellsDisplayTime} = this.props
     this.timerId = setTimeout(() => {
-      // Store the timerId
       this.setState({shouldShowHiddenCells: false})
     }, hiddenCellsDisplayTime)
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timerId) // Clear the timer in componentWillUnmount
+    clearTimeout(this.timerId)
   }
 
   render() {
-    const {isHidden, isClicked, onClick} = this.props
+    const {isHidden, isClicked, wrongClicked, onClick} = this.props
     const {shouldShowHiddenCells} = this.state
+
     const cellStyle = {}
     let dataTestid = ''
+
+    // Coloring logic after click
     if (isClicked) {
-      if (isHidden) {
-        cellStyle.backgroundColor = 'red'
-      } else {
-        cellStyle.backgroundColor = 'blue'
-      }
+      cellStyle.backgroundColor = 'blue' // correct click
+    } else if (wrongClicked) {
+      cellStyle.backgroundColor = 'red' // wrong click
     }
 
-    if (isHidden) {
-      dataTestid = 'highlighted'
-    } else {
-      dataTestid = 'notHighlighted'
-    }
+    // Test ID setup
+    dataTestid = isHidden ? 'highlighted' : 'notHighlighted'
+
+    // Disable all clicks during show period
+    const isDisabled = shouldShowHiddenCells
+
     return (
       <li>
         <button
@@ -48,15 +49,15 @@ class Cell extends Component {
           }`}
           data-testid={dataTestid}
           style={cellStyle}
-          onClick={onClick}
-          tabIndex={0}
+          onClick={!isDisabled ? onClick : undefined}
           type="button"
+          disabled={isDisabled}
         >
-          {}
+          {/* Empty cell */}
         </button>
       </li>
     )
   }
 }
 
-export default Cell
+export default MemoryMatrixCell

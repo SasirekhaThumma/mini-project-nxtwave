@@ -4,7 +4,6 @@ import Modal from 'react-modal'
 import {BiArrowBack} from 'react-icons/bi'
 import {CgClose} from 'react-icons/cg'
 import {useState, useEffect} from 'react'
-import {Line} from 'rc-progress'
 import EachAnimalCard from '../EachAnimalCard'
 
 const cardsData = [
@@ -90,9 +89,9 @@ const CardFlipMemoryGameInterface = () => {
   const formatTime = time => {
     const minutes = Math.floor(time / 60)
     const seconds = time % 60
-    return `${minutes
+    return `${minutes.toString().padStart(2, '0')}:${seconds
       .toString()
-      .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+      .padStart(2, '0')}`
   }
 
   useEffect(() => {
@@ -211,12 +210,10 @@ const CardFlipMemoryGameInterface = () => {
       <h1 className="cfm-active-state-heading">Card-Flip Memory Game</h1>
       <div className="active-state-score-time-unordered-list">
         <p className="active-state-score-list-detail">
-          Card flip count - {cardFlipCount.toString().padStart(2, '0')}
+          Card flip count - {cardFlipCount}
         </p>
         <p className="active-state-time-list-detail">{formatTime(countDown)}</p>
-        <p className="active-state-score-list-detail">
-          Score - {score.toString().padStart(2, '0')}
-        </p>
+        <p className="active-state-score-list-detail">Score - {score}</p>
       </div>
       <div className="cfm-game-container">
         <ul className="animal-cards-unorder-list-styling">
@@ -247,29 +244,37 @@ const CardFlipMemoryGameInterface = () => {
       'https://res.cloudinary.com/dvptfc0ji/image/upload/v1729927729/2x_csj9y0.png'
     const sadEmoji =
       'https://res.cloudinary.com/dvptfc0ji/image/upload/v1729927830/thfj8loqatlejhcjmh0q.png'
+
+    const isWin = score > 9
+
     return (
       <div className="result-response-container">
         <img
           className="result-response-emoji"
-          src={score > 9 ? happyEmoji : sadEmoji}
-          alt={score > 9 ? 'grinning face with big eyes' : 'neutral face'}
+          src={isWin ? happyEmoji : sadEmoji}
+          alt={isWin ? 'neutral face' : 'Frowning face'}
         />
-        <h1 className="congratulation-response-text">
-          {score > 9 ? 'Congratulations' : 'Better luck next time'}
-        </h1>
-        <p className="no-of-flips-text">No.of Flips - {cardFlipCount}</p>
-        <p className="response-descripton">
-          {score > 9
-            ? 'You matched all of the cards in record time'
-            : 'You did not match all of the cards in record time'}
-        </p>
-        <Line
-          percent={(matchedCards / (shuffledCards.length / 2)) * 100}
-          strokeWidth={4}
-          strokeColor="#3b82f6"
-          trailColor="#d1d5db"
-          className="progress-bar"
-        />
+
+        {isWin ? (
+          <>
+            <h2 className="congratulation-response-text">Congratulations</h2>
+            <p className="no-of-flips-text">No.of Flips - {cardFlipCount}</p>
+            <h1 className="response-descripton">
+              You matched all of the cards in record time
+            </h1>
+          </>
+        ) : (
+          <>
+            <h2 className="congratulation-response-text">
+              Better luck next time
+            </h2>
+            <p className="no-of-flips-text">No.of Flips - {cardFlipCount}</p>
+            <h1 className="response-descripton">
+              You did not match all of the cards in record time
+            </h1>
+          </>
+        )}
+
         <button
           type="button"
           className="cfm-response-button"

@@ -21,13 +21,13 @@ const EachAnimalCard = props => {
     >
       <button
         type="button"
-        data-testid="cardsData"
+        data-testid={name}
         onClick={onSelection}
         className="animal-card-button"
         disabled={isFlipped}
       >
         <img
-          data-testid={name}
+          data-testid="cardsData"
           src={isFlipped ? imageurl : footPrint}
           alt={isFlipped ? name : 'foot print'}
           className="animal-image"
