@@ -51,7 +51,7 @@ const RockPaperScissor = () => {
     let scorealtimage = ' '
     let scoreBasedImg = ' '
     if (gameStatus === gameStateConstants.lossState) {
-      scorealtimage = 'Face without mouth'
+      scorealtimage = 'Frowning face'
       scoreBasedImg =
         'https://res.cloudinary.com/dnxqbn4b5/image/upload/v1757486849/Group_7618_4_qq380s.png'
     } else if (gameStatus === gameStateConstants.wonState) {

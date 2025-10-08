@@ -15,6 +15,7 @@ class MemoryMatrixGame extends Component {
       array: [],
       clickedCellsCount: 0,
       showResults: false,
+      isLoss: false, //  track loss
     }
     this.timerId = null
   }
@@ -51,6 +52,7 @@ class MemoryMatrixGame extends Component {
         array: currentLevelGridCells,
         clickedCellsCount: 0,
         showResults: false,
+        isLoss: false, //  reset on new level
       },
       () => {
         clearTimeout(this.timerId)
@@ -65,19 +67,19 @@ class MemoryMatrixGame extends Component {
       const updatedArray = [...array]
       const clickedCell = updatedArray[index]
 
-      // If wrong cell clicked, game over
+      //  Wrong cell clicked → loss
       if (!clickedCell.isHidden) {
         clickedCell.wrongClicked = true
         clearTimeout(this.timerId)
-        return {array: updatedArray, showResults: true}
+        return {array: updatedArray, showResults: true, isLoss: true}
       }
 
-      // Correct cell clicked
+      //  Correct cell clicked
       clickedCell.isClicked = true
       clickedCell.isHidden = false
       const newClickedCount = clickedCellsCount + 1
 
-      // Level complete
+      // Level complete → go to next level
       if (newClickedCount === gridSize) {
         clearTimeout(this.timerId)
         this.initializeLevel(level + 1)
@@ -92,7 +94,8 @@ class MemoryMatrixGame extends Component {
   }
 
   goToResultsPage = () => {
-    this.setState({showResults: true})
+    //  Timer expired → loss
+    this.setState({showResults: true, isLoss: true})
   }
 
   onClickPlayAgain = () => {
@@ -100,13 +103,13 @@ class MemoryMatrixGame extends Component {
   }
 
   render() {
-    const {array, level, showResults, gridSize} = this.state
+    const {array, level, showResults, gridSize, isLoss} = this.state
 
     return showResults ? (
       <MemoryMatrixResultsPage
         level={level}
         onClickPlayAgain={this.onClickPlayAgain}
-        data-testid="gameOverBtn"
+        isLoss={isLoss}
       />
     ) : (
       <div className="memory-matrix-bg">

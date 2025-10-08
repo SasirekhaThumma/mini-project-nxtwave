@@ -12,7 +12,7 @@ const MemoryMatrixRulesModal = () => {
   return (
     <div>
       <button type="button" className="trigger-button" onClick={openModal}>
-        RULES
+        Rules
       </button>
 
       <Modal
@@ -32,8 +32,9 @@ const MemoryMatrixRulesModal = () => {
           className="cross-icon"
           onClick={closeModal}
           data-testid="close"
+          aria-label="Close rules modal"
         >
-          <CgClose size={24} color="grey" aria-label="close" />
+          <CgClose size={24} color="grey" />
         </button>
 
         <h1 id="rules-heading-popup" className="rules-heading-popup">

@@ -171,10 +171,11 @@ class EmojiGame extends Component {
             className="close-btn"
             onClick={this.closeRulesModal}
             data-testid="close"
+            aria-label="Close rules modal"
           >
-            <CgClose color="grey" size={24} aria-label="close" />
+            <CgClose color="grey" size={24} />
           </button>
-          <h2 className="rules-title">Rules</h2>
+          <h1 className="rules-title">Rules</h1>
           <ul className="rules-list">
             <li>User should be able to see the list of Emojis</li>
             <li>
@@ -260,6 +261,7 @@ class EmojiGame extends Component {
 
   renderGameView = () => {
     const {score, shuffledEmojis} = this.state
+    const updatedScore = score.toString().padStart(2, '0')
     return (
       <div className="game-view">
         <nav className="game-view-nav">
@@ -271,9 +273,7 @@ class EmojiGame extends Component {
             />
             <h1>Emoji Game</h1>
           </div>
-          <p className="score-text">
-            Score: {score.toString().padStart(2, '0')}
-          </p>
+          <p className="score-text">Score: {updatedScore}</p>
         </nav>
         <div className="emoji-game-con">
           <div className="emoji-rule-back">
@@ -312,6 +312,8 @@ class EmojiGame extends Component {
 
   renderResultView = () => {
     const {score, gameResult} = this.state
+    const updatedScore = score.toString().padStart(2, '0')
+
     const resultImg =
       gameResult === 'win'
         ? 'https://res.cloudinary.com/dnxqbn4b5/image/upload/v1757222974/Image_2_geufoh.png'
@@ -337,9 +339,8 @@ class EmojiGame extends Component {
               {gameResult === 'win' ? 'You Won!' : 'You Lose'}
             </h1>
             <p className="game-result-bestscore">Best Score</p>
-            <p className="game-result-score">
-              {score.toString().padStart(2, '0')}/12
-            </p>
+            <p className="game-result-score">Score</p>
+            <p className="game-result-score">{updatedScore}/12</p>
 
             <button
               type="button"

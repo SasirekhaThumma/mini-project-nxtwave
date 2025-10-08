@@ -212,7 +212,7 @@
   color: #4ade80;
 }
 
-.no-of-flips-text {
+.flips-text {
   color: #ffffff;
   font-family: Bree Serif;
   font-size: 24px;
@@ -221,7 +221,7 @@
   text-align: center;
 }
 
-.response-descripton {
+.response-description {
   font-family: Bree Serif;
   font-size: 36px;
   font-weight: 400;
